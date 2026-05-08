@@ -26,10 +26,19 @@ pipeline:
                     command: npm install
                   timeout: ""
                   type: Run
+              - step:
+                  type: Run
+                  name: news-test
+                  identifier: newstest
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "Harness is working!"
+                      python3 --version
           platform:
-            arch: Amd64
             os: Linux
+            arch: Amd64
           runtime:
-            spec: {}
             type: Cloud
+            spec: {}
         type: CI
