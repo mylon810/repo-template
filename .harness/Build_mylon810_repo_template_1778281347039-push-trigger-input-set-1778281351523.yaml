@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_mylon810_repo_template_1778281347039-push-trigger-input-set
+  identifier: Build_mylon810_repo_template_1778281347039pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_mylon810_repo_template_1778281347039
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
