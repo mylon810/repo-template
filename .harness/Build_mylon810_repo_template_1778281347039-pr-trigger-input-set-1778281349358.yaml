@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_mylon810_repo_template_1778281347039-pr-trigger-input-set
+  identifier: Build_mylon810_repo_template_1778281347039prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_mylon810_repo_template_1778281347039
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
