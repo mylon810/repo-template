@@ -44,7 +44,7 @@ pipeline:
                       DEEPSEEK_KEY = "sk-0160f459bb5a4f28bbc846bdcb6baf3c"
                       SENDER_EMAIL = "2026794621@qq.com"  # 比如你的QQ邮箱
                       AUTH_CODE = "exzjhpbsnvhyebfb"           # 刚才申请的16位授权码
-                      RECEIVER_EMAIL = "2026794621@xxx.com" # 你想收件的邮箱
+                      RECEIVER_EMAIL = "2026794621@qq.com" # 你想收件的邮箱
                       # ===================================================
 
                       # 1. 抓取新闻
