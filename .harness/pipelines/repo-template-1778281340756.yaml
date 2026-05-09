@@ -40,14 +40,13 @@ pipeline:
                       from email.mime.text import MIMEText
                       from email.header import Header
 
-                      # ================= 配置区 (修改这里) =================
+                      # ================= 配置区 =================
                       DEEPSEEK_KEY = "sk-0160f459bb5a4f28bbc846bdcb6baf3c"
-                      SENDER_EMAIL = "2026794621@qq.com"  # 比如你的QQ邮箱
-                      AUTH_CODE = "exzjhpbsnvhyebfb"           # 刚才申请的16位授权码
-                      RECEIVER_EMAIL = "2026794621@qq.com" # 你想收件的邮箱
-                      # ===================================================
+                      SENDER_EMAIL = "2026794621@qq.com"
+                      AUTH_CODE = "exzjhpbsnvhyebfb"
+                      RECEIVER_EMAIL = "2026794621@qq.com"
+                      # ==========================================
 
-                      # 1. 抓取新闻
                       print("🚀 正在搜罗今日科技大料...")
                       url = 'https://node-hnapi.herokuapp.com/news?page=1'
                       news_list_text = ""
@@ -59,17 +58,13 @@ pipeline:
                       except Exception as e:
                           print(f"抓取失败: {e}")
 
-                      # 2. 调用 DeepSeek 进行混子哥风格总结
                       print("🤖 混子哥正在灵魂总结中...")
                       ds_url = "https://api.deepseek.com/chat/completions"
-                      headers = {
-                          "Content-Type": "application/json",
-                          "Authorization": f"Bearer {DEEPSEEK_KEY}"
-                      }
+                      headers = {"Content-Type": "application/json", "Authorization": f"Bearer {DEEPSEEK_KEY}"}
                       payload = {
                           "model": "deepseek-chat",
                           "messages": [
-                              {"role": "system", "content": "你现在是'混子哥'，请用《半小时漫画》的风格总结新闻。要求：语气幽默、大白话、重逻辑，把科技事儿比喻成生活琐事。最后给个'混子曰'。"},
+                              {"role": "system", "content": "你现在是'混子哥'，请用《半小时漫画》的风格总结新闻。要求：语气幽默、大白话、重逻辑。最后给个'混子曰'。"},
                               {"role": "user", "content": f"帮我总结这些新闻：\n{news_list_text}"}
                           ]
                       }
@@ -80,28 +75,24 @@ pipeline:
                           print("\n--- 混子哥总结完毕 ---")
                           print(summary)
                       except Exception as e:
-                          summary = "哎呀，混子哥断网了，总结没出来。"
-                          print(f"AI总结失败: {e}")
+                          summary = "哎呀，混子哥断网了。"
+                          print(f"AI失败: {e}")
 
-                      # 3. 发送邮件
                       print("\n📧 正在投递邮件...")
-                      mail_content = f"<h3>今日份混子哥科技速递</h3><pre>{summary}</pre><br><hr>原文链接：<br>{news_list_text.replace('\n', '<br>')}"
-                      message = MIMEText(mail_content, 'html', 'utf-8')
+                      mail_content = f"今日份混子哥科技速递:\n\n{summary}\n\n原文：\n{news_list_text}"
+                      message = MIMEText(mail_content, 'plain', 'utf-8')
                       message['From'] = SENDER_EMAIL
                       message['To'] = RECEIVER_EMAIL
                       message['Subject'] = Header("今日科技八卦：混子哥带你看逻辑", 'utf-8')
 
                       try:
-                          # 如果用QQ邮箱，服务器是 smtp.qq.com；163邮箱是 smtp.163.com
-                          smtp_server = "smtp.qq.com" 
-                          server = smtplib.SMTP_SSL(smtp_server, 465)
+                          server = smtplib.SMTP_SSL("smtp.qq.com", 465)
                           server.login(SENDER_EMAIL, AUTH_CODE)
                           server.sendmail(SENDER_EMAIL, [RECEIVER_EMAIL], message.as_string())
                           server.quit()
-                          print("✅ 邮件发送成功！快去查收吧。")
+                          print("✅ 成功！去查收邮箱吧。")
                       except Exception as e:
-                          print(f"❌ 邮件发送失败: {e}")
-
+                          print(f"❌ 邮件失败: {e}")
                       EOF
           platform:
             os: Linux
